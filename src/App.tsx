@@ -1,24 +1,46 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
+type PropsType={
+  body:string
+  userId:number
+  id: number
+  title:string
+}
 
 function App() {
+  const[state,setState]=useState<PropsType[]>([])
+  console.log(state)
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/posts')
+        .then(response => response.json())
+        .then(json => setState(json))
+  },[])
+const deleteHandler=()=>{
+      setState([])
+}
+    const postsHandler=()=>{
+        fetch('https://jsonplaceholder.typicode.com/posts')
+            .then(response => response.json())
+            .then(json => setState(json))
+    }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={deleteHandler}>Delete</button>
+      <button onClick={postsHandler}>ShowPosts</button>
+      <ul>
+      {state.map((el)=>{
+      return(
+
+            <li key={el.id}>
+              <span>{el.id}</span>
+              <span>{el.title}</span>
+              <span>{el.userId}</span>
+
+            </li>
+      )
+      })}
+      </ul>
     </div>
   );
 }
