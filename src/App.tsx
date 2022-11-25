@@ -16,6 +16,7 @@ function App() {
             .then(response => response.json())
             .then(json => setState(json))
     }, [])
+
     const deleteHandler = () => {
         setState([])
     }
